@@ -1,46 +1,72 @@
 import React, { useState } from 'react';
-import { EuiCollapsibleNav, EuiButton, EuiTitle, EuiSpacer, EuiText, EuiCode } from '@elastic/eui';
+import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
+import { EuiCollapsibleNav, EuiTitle, EuiSpacer } from '@elastic/eui';
+import Dashboard from './components/Dashboard/Dashboard'
+import VMManager from './components/VMManager/VMManager'
 import './App.scss';
 
 function App() {
   const [navIsOpen, setNavIsOpen] = useState(false);
-  const [navIsDocked, setNavIsDocked] = useState(false);
+  const [navIsDocked, _setNavIsDocked] = useState(true);
 
   return (
-    <>
-      <EuiCollapsibleNav
-        isOpen={navIsOpen}
-        isDocked={navIsDocked}
-        button={
-          <EuiButton onClick={() => setNavIsOpen(!navIsOpen)}>
-            Toggle nav
-          </EuiButton>
-        }
-        onClose={() => setNavIsOpen(false)}>
-        <div style={{ padding: 16 }}>
-          <EuiTitle>
-            <h2>I am some nav</h2>
-          </EuiTitle>
-          <EuiSpacer />
-          <EuiButton
-            onClick={() => {
-              setNavIsDocked(!navIsDocked);
-            }}>
-            Docked: {navIsDocked ? 'on' : 'off'}
-          </EuiButton>
-        </div>
-      </EuiCollapsibleNav>
-
-      {navIsDocked && (
-        <EuiText size="s" color="subdued">
-          <p>
-            The button gets hidden by default when the nav is docked unless you
-            set <EuiCode language="js">showButtonIfDocked = true</EuiCode>.
-          </p>
-        </EuiText>
-      )}
-    </>
+    <Router>
+      <div className="page-wrapper">
+        <EuiCollapsibleNav
+          className="collapsible-nav"
+          isOpen={navIsOpen}
+          isDocked={navIsDocked}
+          // button={
+          //   <EuiButton onClick={() => setNavIsOpen(!navIsOpen)}>
+          //     Toggle nav
+          //   </EuiButton>
+          // }
+          onClose={() => setNavIsOpen(false)}>
+          <div style={{ padding: 16 }}>
+            <EuiTitle>
+              <Link to="/dashboard">
+                <h2>CloudKit</h2>
+              </Link>
+            </EuiTitle>
+            <EuiSpacer />
+            {/* <EuiButton
+              onClick={() => {
+                setNavIsDocked(!navIsDocked);
+              }}>
+              Docked: {navIsDocked ? 'on' : 'off'}
+            </EuiButton> */}
+          </div>
+        </EuiCollapsibleNav>
+      </div>
+      <Switch>
+        <Redirect
+          from='/'
+          to="/dashboard"
+          exact
+        />
+        <Route
+          path="/dashboard"
+          exact
+        >
+          <Dashboard />
+        </Route>
+        <Route
+          path="/vm-manager"
+          exact
+        >
+          <VMManager />
+        </Route>
+        <Route
+          path="*"
+          component={NoMatch}
+        />
+      </Switch>
+    </Router>
   );
+}
+
+function NoMatch() {
+  return <h1>Four Oh Four</h1>
 }
 
 export default App;
