@@ -17,7 +17,7 @@ function Dashboard({ history }) {
         return
       }
 
-      setVMData(result.data.vms);
+      setVMData(result.data);
     };
  
     fetchVMs();
@@ -25,17 +25,23 @@ function Dashboard({ history }) {
 
   return (
     <>
-      {VMData ? (
+      {VMData?.data?.vms?.length > 0 ? (
         <>
           <EuiTitle size="l">
             <h3>Your VMs</h3>
           </EuiTitle>
+          <EuiSpacer size="l" />
+          <EuiSpacer size="l" />
           <ul>
-            {VMData.vms.map(vm => (
-              <li key={vm.id}>
-                {vm.name}
-              </li>
-            ))}
+            {VMData.data.vms.map(vm => {
+              if (vm.ID !== -1) {
+                return (
+                  <li key={vm.UUID}>
+                    {vm.Name}
+                  </li>
+                )
+              }
+            })}
           </ul>
         </>
       ) : (
