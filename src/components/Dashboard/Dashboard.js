@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { EuiTitle, EuiButton, EuiSpacer, EuiEmptyPrompt } from '@elastic/eui';
+import { EuiTitle, EuiButton, EuiSpacer, EuiEmptyPrompt, EuiBasicTable, EuiLink, EuiHealth } from '@elastic/eui';
 import axios from 'axios';
 
 function Dashboard({ history }) {
@@ -32,17 +32,10 @@ function Dashboard({ history }) {
           </EuiTitle>
           <EuiSpacer size="l" />
           <EuiSpacer size="l" />
-          <ul>
-            {VMData.data.vms.map(vm => {
-              if (vm.ID !== -1) {
-                return (
-                  <li key={vm.UUID}>
-                    {vm.Name}
-                  </li>
-                )
-              }
-            })}
-          </ul>
+          <EuiBasicTable
+            items={VMData.data.vms}
+            columns={columns}
+          />
         </>
       ) : (
         <>
@@ -70,3 +63,27 @@ function Dashboard({ history }) {
 }
 
 export default withRouter(Dashboard);
+
+const columns = [
+  {
+    field: 'ID',
+    name: 'VM ID',
+    sortable: true,
+  },
+  {
+    field: 'Name',
+    name: 'VM Name',
+    sortable: true,
+  },
+  {
+    field: 'online',
+    name: 'Online',
+    dataType: 'boolean',
+    render: (online) => {
+      online = true;
+      const color = online ? 'success' : 'danger';
+      const label = online ? 'Online' : 'Offline';
+      return <EuiHealth color={color}>{label}</EuiHealth>;
+    },
+  },
+];

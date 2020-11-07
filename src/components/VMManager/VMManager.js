@@ -29,7 +29,7 @@ function Dashboard({ history }) {
   return (
     <>
       <EuiTitle size="l">
-        <h3>Select your machine</h3>
+        <h3>Select an Operating System</h3>
       </EuiTitle>
       <EuiSpacer size="l" />
       <EuiSuperSelect
@@ -49,10 +49,10 @@ export default withRouter(Dashboard);
 
 const options = [
   {
-    value: 'linux-64-bit',
+    value: 'ubuntu-18.04-bionic',
     inputDisplay: (
       <EuiHealth color="success" style={{ lineHeight: 'inherit' }}>
-        linux-64-bit
+        ubuntu-18.04-bionic
       </EuiHealth>
     ),
   },
