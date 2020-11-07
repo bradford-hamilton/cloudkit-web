@@ -66,13 +66,36 @@ export default withRouter(Dashboard);
 
 const columns = [
   {
-    field: 'ID',
-    name: 'VM ID',
+    field: 'id',
+    name: 'ID',
     sortable: true,
   },
   {
-    field: 'Name',
-    name: 'VM Name',
+    field: 'name',
+    name: 'Name',
+    sortable: true,
+  },
+  {
+    field: 'ip',
+    name: 'IP Address (private)',
+    sortable: true,
+  },
+  {
+    field: 'mac',
+    name: 'MAC Address',
+    sortable: true,
+  },
+  {
+    field: 'mem',
+    name: 'Total Memory',
+    sortable: true,
+  },
+  {
+    field: 'current_mem',
+    name: 'Remaining Memory',
+    render: (num) => {
+      return num + " Kib"
+    },
     sortable: true,
   },
   {
