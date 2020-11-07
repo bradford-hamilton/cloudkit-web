@@ -36,6 +36,10 @@ function Dashboard({ history }) {
             items={VMData.data.vms}
             columns={columns}
           />
+          <EuiSpacer size="l" />
+          <EuiButton color="primary" fill onClick={() => history.push("/vm-manager")}>
+            Add a VM
+          </EuiButton>
         </>
       ) : (
         <>
@@ -99,14 +103,24 @@ const columns = [
     sortable: true,
   },
   {
-    field: 'online',
-    name: 'Online',
-    dataType: 'boolean',
-    render: (online) => {
-      online = true;
-      const color = online ? 'success' : 'danger';
-      const label = online ? 'Online' : 'Offline';
-      return <EuiHealth color={color}>{label}</EuiHealth>;
+    field: 'state',
+    name: 'State',
+    render: (state) => {
+      let color = 'danger';
+      let msg = 'unknown';
+
+      if (state === 'running') {
+        color = 'success'
+        msg = 'running'
+      } else if (state === 'paused') {
+        color = 'warning'
+        msg = 'paused'
+      } else if (state === 'off') {
+        color = 'warning'
+        msg = 'off'
+      }
+
+      return <EuiHealth color={color}>{msg}</EuiHealth>;
     },
   },
 ];
