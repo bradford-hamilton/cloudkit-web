@@ -11,18 +11,21 @@ import axios from 'axios';
 
 function Dashboard({ history }) {
   const [machineType, setValue] = useState(options[0].value);
+  const [loading, setLoading] = useState(false);
 
   const onChange = (machineType) => {
     setValue(machineType);
   };
 
   const createVM = async () => {
+    setLoading(true);
     try {
       await axios.post('http://localhost:4000/api/v1/vms', { machineType });
     } catch (err) {
       console.log("TODO: ERR: ", err)
       return
     }
+    setLoading(false);
     history.push("/dashboard")
   };
 
@@ -38,7 +41,7 @@ function Dashboard({ history }) {
         onChange={(machineType) => onChange(machineType)}
       />
       <EuiSpacer size="l" />
-      <EuiButton fill color="primary" onClick={createVM}>
+      <EuiButton fill color="primary" onClick={createVM} disabled={loading}>
         Create
       </EuiButton>
     </>

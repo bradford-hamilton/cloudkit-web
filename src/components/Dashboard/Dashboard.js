@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { EuiTitle, EuiButton, EuiSpacer, EuiEmptyPrompt, EuiBasicTable, EuiLink, EuiHealth } from '@elastic/eui';
+import { EuiTitle, EuiButton, EuiSpacer, EuiEmptyPrompt, EuiBasicTable, EuiHealth } from '@elastic/eui';
+import VMFlyout from '../VMFlyout/VMFlyout';
 import axios from 'axios';
+import './Dashboard.scss';
 
 function Dashboard({ history }) {
   const [VMData, setVMData] = useState({ vms: [] });
@@ -30,8 +32,7 @@ function Dashboard({ history }) {
           <EuiTitle size="l">
             <h3>Your VMs</h3>
           </EuiTitle>
-          <EuiSpacer size="l" />
-          <EuiSpacer size="l" />
+          <EuiSpacer size="2" />
           <EuiBasicTable
             items={VMData.data.vms}
             columns={columns}
@@ -70,9 +71,13 @@ export default withRouter(Dashboard);
 
 const columns = [
   {
-    field: 'id',
-    name: 'ID',
+    field: 'ip',
+    name: 'Get Started',
     sortable: true,
+    render: (ip) => {
+      if (!ip) return <span>pending</span>
+      return <VMFlyout cloudKitIP="157.245.225.232" vmIP={ip} />;
+    }
   },
   {
     field: 'name',
@@ -81,7 +86,7 @@ const columns = [
   },
   {
     field: 'ip',
-    name: 'IP Address (private)',
+    name: 'Private IP',
     sortable: true,
   },
   {
