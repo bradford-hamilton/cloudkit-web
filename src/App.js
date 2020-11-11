@@ -28,7 +28,7 @@ function App() {
                 <h2>CloudKit</h2>
               </Link>
             </EuiTitle>
-            <EuiSpacer />
+            <EuiSpacer size="l"/>
             {/* <EuiButton
               onClick={() => {
                 setNavIsDocked(!navIsDocked);

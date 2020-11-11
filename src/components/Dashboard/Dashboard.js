@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { EuiTitle, EuiButton, EuiSpacer, EuiEmptyPrompt, EuiBasicTable, EuiHealth } from '@elastic/eui';
 import VMFlyout from '../VMFlyout/VMFlyout';
+import prettyKib from '../../lib/prettyKib';
 import axios from 'axios';
 import './Dashboard.scss';
 
@@ -32,7 +33,7 @@ function Dashboard({ history }) {
           <EuiTitle size="l">
             <h3>Your VMs</h3>
           </EuiTitle>
-          <EuiSpacer size="2" />
+          <EuiSpacer size="l" />
           <EuiBasicTable
             items={VMData.data.vms}
             columns={columns}
@@ -97,14 +98,13 @@ const columns = [
   {
     field: 'mem',
     name: 'Total Memory',
+    render: (num) => prettyKib(num),
     sortable: true,
   },
   {
     field: 'current_mem',
     name: 'Remaining Memory',
-    render: (num) => {
-      return num + " Kib"
-    },
+    render: () => 'TODO',
     sortable: true,
   },
   {
