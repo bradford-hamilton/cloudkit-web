@@ -26,6 +26,12 @@ function Dashboard({ history }) {
     fetchVMs();
   }, []);
 
+  const getRowProps = ({ id }) => {
+    return {
+      onClick: () => { history.push(`/vms/${id}`) },
+    };
+  };
+
   return (
     <>
       {VMData?.data?.vms?.length > 0 ? (
@@ -37,6 +43,7 @@ function Dashboard({ history }) {
           <EuiBasicTable
             items={VMData.data.vms}
             columns={columns}
+            rowProps={getRowProps}
           />
           <EuiSpacer size="l" />
           <EuiButton color="primary" fill onClick={() => history.push("/vm-manager")}>

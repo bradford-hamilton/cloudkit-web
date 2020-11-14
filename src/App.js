@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-ro
 import { EuiCollapsibleNav, EuiTitle, EuiSpacer } from '@elastic/eui';
 import Dashboard from './components/Dashboard/Dashboard'
 import VMManager from './components/VMManager/VMManager'
+import VMView from './components/VMView/VMView'
 import './App.scss';
 
 function App() {
@@ -55,6 +56,12 @@ function App() {
           exact
         >
           <VMManager />
+        </Route>
+        <Route
+          path="/vms/:id"
+          exact
+        >
+          <VMView />
         </Route>
         <Route
           path="*"
