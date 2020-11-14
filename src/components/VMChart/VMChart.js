@@ -3,9 +3,7 @@ import {
   Chart,
   Settings,
   Axis,
-  LineSeries,
   BarSeries,
-  DataGenerator,
 } from '@elastic/charts';
 
 import {
@@ -46,12 +44,7 @@ const paletteNames = Object.keys(paletteData);
 
 const VMChart = () => {
   const palettes = paletteNames.map((paletteName, index) => {
-    const options =
-      index > 0
-        ? 10
-        : {
-            sortBy: 'natural',
-          };
+    const options = index > 0 ? 10 : { sortBy: 'natural' };
 
     return {
       value: paletteName,
@@ -62,9 +55,6 @@ const VMChart = () => {
   });
 
   const [barPalette, setBarPalette] = useState('euiPaletteColorBlind');
-  const dg = new DataGenerator();
-  const data1 = dg.generateGroupedSeries(20, 1);
-  let data2 = dg.generateGroupedSeries(20, 5);
   const theme = EUI_CHARTS_THEME_DARK;
   const barPaletteIndex = paletteNames.findIndex((item) => item === barPalette);
   const customTheme = barPaletteIndex > 0 ? [{
@@ -73,8 +63,7 @@ const VMChart = () => {
 
   // x == hour in question
   // y == memeory usage 1-100
-  console.log('data2', data2);
-  data2 = [
+  const data2 = [
     { hour: 1, memUsage: 35, g: "a" },
     { hour: 2, memUsage: 40, g: "a" },
     { hour: 3, memUsage: 75, g: "a" },

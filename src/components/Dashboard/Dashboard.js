@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
-import { EuiTitle, EuiButton, EuiSpacer, EuiEmptyPrompt, EuiBasicTable, EuiHealth } from '@elastic/eui';
-import VMFlyout from '../VMFlyout/VMFlyout';
+import {
+  EuiTitle,
+  EuiButton,
+  EuiSpacer,
+  EuiEmptyPrompt,
+  EuiBasicTable,
+  EuiHealth,
+  EuiLoadingChart,
+} from '@elastic/eui';
 import prettyKib from '../../lib/prettyKib';
 import axios from 'axios';
 import './Dashboard.scss';
@@ -34,41 +41,49 @@ function Dashboard({ history }) {
 
   return (
     <>
-      {VMData?.data?.vms?.length > 0 ? (
+      {VMData?.data?.vms ? (
         <>
-          <EuiTitle size="l">
-            <h3>Your VMs</h3>
-          </EuiTitle>
-          <EuiSpacer size="l" />
-          <EuiBasicTable
-            items={VMData.data.vms}
-            columns={columns}
-            rowProps={getRowProps}
-          />
-          <EuiSpacer size="l" />
-          <EuiButton color="primary" fill onClick={() => history.push("/vm-manager")}>
-            Add a VM
-          </EuiButton>
+          {VMData.data.vms.length > 0 ? (
+            <>
+              <EuiTitle size="l">
+                <h3>Your VMs</h3>
+              </EuiTitle>
+              <EuiSpacer size="l" />
+              <EuiBasicTable
+                items={VMData.data.vms}
+                columns={columns}
+                rowProps={getRowProps}
+              />
+              <EuiSpacer size="l" />
+              <EuiButton color="primary" fill onClick={() => history.push("/vm-manager")}>
+                Add a VM
+              </EuiButton>
+            </>
+          ) : (
+            <>
+              <EuiSpacer size="l" />
+              <EuiEmptyPrompt
+                iconType="compute"
+                title={<h2>No currently running VMs</h2>}
+                body={
+                  <p>
+                    Use CloudKit to manage your fleet of machines. Start by clicking
+                    the button below to run your first Virtual Machine.
+                  </p>
+                }
+                actions={
+                  <EuiButton color="primary" fill onClick={() => history.push("/vm-manager")}>
+                    Spin up a VM
+                  </EuiButton>
+                }
+              />
+            </>
+          )}
         </>
       ) : (
-        <>
-          <EuiSpacer size="l" />
-          <EuiEmptyPrompt
-            iconType="compute"
-            title={<h2>No currently running VMs</h2>}
-            body={
-              <p>
-                Use CloudKit to manage your fleet of machines. Start by clicking
-                the button below to run your first Virtual Machine.
-              </p>
-            }
-            actions={
-              <EuiButton color="primary" fill onClick={() => history.push("/vm-manager")}>
-                Spin up a VM
-              </EuiButton>
-            }
-          />
-        </>
+        <div className="loading">
+          <EuiLoadingChart size="xl" />
+        </div>
       )}
       <EuiSpacer size="l" />
     </>
@@ -78,15 +93,6 @@ function Dashboard({ history }) {
 export default withRouter(Dashboard);
 
 const columns = [
-  {
-    field: 'ip',
-    name: 'Get Started',
-    sortable: true,
-    render: (ip) => {
-      if (!ip) return <span>pending</span>
-      return <VMFlyout cloudKitIP="157.245.225.232" vmIP={ip} />;
-    }
-  },
   {
     field: 'name',
     name: 'Name',
