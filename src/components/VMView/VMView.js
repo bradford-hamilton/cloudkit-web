@@ -17,14 +17,14 @@ import './VMView.scss';
 
 function VMView() {
   const { domain_id } = useParams();
-  const [VM, setVM] = useState({ vm:{} });
+  const [VM, setVM] = useState({ vm: {}, memory_usage: [] });
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchVMMetadata = async () => {
       setLoading(true);
       let result;
-console.log('DOMAIN ID', domain_id)
+
       try {
         result = await axios(`http://localhost:4000/api/v1/vms/${domain_id}`);
       } catch (err) {
@@ -32,7 +32,7 @@ console.log('DOMAIN ID', domain_id)
         return
       }
 
-      setVM(result.data);
+      setVM(result.data.data);
       setLoading(false);
     };
  
@@ -90,7 +90,7 @@ console.log('DOMAIN ID', domain_id)
           </EuiTitle>
           <EuiSpacer size="l" />
           <EuiSpacer size="l" />
-          <VMChart />
+          <VMChart memUsage={VM.memory_usage} />
         </>        
       )}
     </>

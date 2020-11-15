@@ -1,4 +1,5 @@
 import React, { useState, Fragment } from 'react';
+import moment from 'moment';
 import {
   Chart,
   Settings,
@@ -42,7 +43,7 @@ const paletteData = {
 
 const paletteNames = Object.keys(paletteData);
 
-const VMChart = () => {
+const VMChart = ({ memUsage }) => {
   const palettes = paletteNames.map((paletteName, index) => {
     const options = index > 0 ? 10 : { sortBy: 'natural' };
 
@@ -61,22 +62,17 @@ const VMChart = () => {
     colors: { vizColors: paletteData[paletteNames[barPaletteIndex]](5) },
   }, theme] : theme;
 
-  // x == hour in question
-  // y == memeory usage 1-100
-  const data2 = [
-    { hour: 1, memUsage: 35, g: "a" },
-    { hour: 2, memUsage: 40, g: "a" },
-    { hour: 3, memUsage: 75, g: "a" },
-    { hour: 4, memUsage: 90, g: "a" },
-    { hour: 5, memUsage: 85, g: "a" },
-    { hour: 6, memUsage: 70, g: "a" },
-    { hour: 7, memUsage: 50, g: "a" },
-    { hour: 8, memUsage: 35, g: "a" },
-    { hour: 9, memUsage: 21, g: "a" },
-    { hour: 10, memUsage: 33, g: "a" },
-    { hour: 11, memUsage: 34, g: "a" },
-    { hour: 12, memUsage: 55, g: "a" },
-  ]
+  const chartData = () => {
+    const data = [];
+    memUsage?.forEach(usage => {
+      data.push({
+        hour: moment(usage.time).format('LT'),
+        memUsage: usage.usage,
+        g: 'a',
+      });
+    });
+    return data;
+  }
 
   return (
     <Fragment>
@@ -85,7 +81,7 @@ const VMChart = () => {
         <BarSeries
           id="status"
           name="Memory Usage"
-          data={data2}
+          data={chartData()}
           xAccessor="hour"
           yAccessors={['memUsage']}
         />
