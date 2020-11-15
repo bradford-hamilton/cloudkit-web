@@ -16,36 +16,43 @@ import axios from 'axios';
 import './VMView.scss';
 
 function VMView() {
-  const { id } = useParams();
-  const [VM, setVM] = useState({vm:{}});
+  const { domain_id } = useParams();
+  const [VM, setVM] = useState({ vm:{} });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchVMMetadata = async () => {
+      setLoading(true);
       let result;
-
+console.log('DOMAIN ID', domain_id)
       try {
-        result = await axios(`http://localhost:4000/api/v1/vms/${id}`);
+        result = await axios(`http://localhost:4000/api/v1/vms/${domain_id}`);
       } catch (err) {
         console.log("TODO: ERR: ", err)
         return
       }
 
       setVM(result.data);
+      setLoading(false);
     };
  
     fetchVMMetadata();
-  }, [id]);
+  }, [domain_id]);
 
   const cloudKitIP = '157.245.225.232';
   const sshInstructions = `ssh -J root@${cloudKitIP} ubuntu@${VM?.data?.vm?.ip}`;
 
   return (
     <>
-      {VM?.data?.vm?.id ? (
+      {loading ? (
+        <div className="loading">
+          <EuiLoadingChart size="xl" />
+        </div>
+      ) : (
         <>
           <EuiTitle size="m">
             <h3>
-              {VM.data.vm.name}
+              {VM?.data?.vm?.name}
             </h3>
           </EuiTitle>
           <EuiSpacer size="l" />
@@ -84,11 +91,7 @@ function VMView() {
           <EuiSpacer size="l" />
           <EuiSpacer size="l" />
           <VMChart />
-        </>
-      ) : (
-        <div className="loading">
-          <EuiLoadingChart size="xl" />
-        </div>
+        </>        
       )}
     </>
   );

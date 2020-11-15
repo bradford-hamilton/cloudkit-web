@@ -15,9 +15,11 @@ import './Dashboard.scss';
 
 function Dashboard({ history }) {
   const [VMData, setVMData] = useState({ vms: [] });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchVMs = async () => {
+      setLoading(true)
       let result;
 
       try {
@@ -28,22 +30,27 @@ function Dashboard({ history }) {
       }
 
       setVMData(result.data);
+      setLoading(false)
     };
  
     fetchVMs();
   }, []);
 
-  const getRowProps = ({ id }) => {
+  const getRowProps = ({ domain_id }) => {
     return {
-      onClick: () => { history.push(`/vms/${id}`) },
+      onClick: () => { history.push(`/vms/${domain_id}`) },
     };
   };
 
   return (
-    <>
-      {VMData?.data?.vms ? (
-        <>
-          {VMData.data.vms.length > 0 ? (
+      <>
+        {loading ? (
+          <div className="loading">
+            <EuiLoadingChart size="xl" />
+          </div>
+        ) : (
+          <>
+            {VMData?.data?.vms?.length > 0 ? (
             <>
               <EuiTitle size="l">
                 <h3>Your VMs</h3>
@@ -80,12 +87,7 @@ function Dashboard({ history }) {
             </>
           )}
         </>
-      ) : (
-        <div className="loading">
-          <EuiLoadingChart size="xl" />
-        </div>
       )}
-      <EuiSpacer size="l" />
     </>
   );
 }

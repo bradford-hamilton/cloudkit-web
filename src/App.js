@@ -58,7 +58,7 @@ function App() {
           <VMManager />
         </Route>
         <Route
-          path="/vms/:id"
+          path="/vms/:domain_id"
           exact
         >
           <VMView />
