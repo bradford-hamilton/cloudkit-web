@@ -40,7 +40,7 @@ function VMView() {
   }, [domain_id]);
 
   const cloudKitIP = '157.245.225.232';
-  const sshInstructions = `ssh -J root@${cloudKitIP} ubuntu@${VM?.data?.vm?.ip}`;
+  const sshInstructions = `ssh -J root@${cloudKitIP} ubuntu@${VM?.vm?.ip}`;
 
   return (
     <>
