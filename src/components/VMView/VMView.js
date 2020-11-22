@@ -35,7 +35,7 @@ function VMView() {
       setVM(result.data.data);
       setLoading(false);
     };
- 
+
     fetchVMMetadata();
   }, [domain_id]);
 

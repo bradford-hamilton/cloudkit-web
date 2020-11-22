@@ -4,7 +4,7 @@ import {
   Chart,
   Settings,
   Axis,
-  BarSeries,
+  AreaSeries,
 } from '@elastic/charts';
 
 import {
@@ -67,7 +67,7 @@ const VMChart = ({ memUsage }) => {
     memUsage?.forEach(usage => {
       data.push({
         hour: moment(usage.time).format('LT'),
-        memUsage: usage.usage,
+        memUsage: usage.usage.toFixed(2),
         g: 'a',
       });
     });
@@ -78,12 +78,12 @@ const VMChart = ({ memUsage }) => {
     <Fragment>
       <Chart size={{ height: 250 }}>
         <Settings theme={customTheme} showLegend />
-        <BarSeries
+        <AreaSeries
           id="status"
           name="Memory Usage"
-          data={chartData()}
           xAccessor="hour"
           yAccessors={['memUsage']}
+          data={chartData()}
         />
         <Axis id="bottom-axis" position="bottom" />
         <Axis id="left-axis" position="left" />
