@@ -112,14 +112,13 @@ const columns = [
   },
   {
     field: 'mem',
-    name: 'Total Memory',
+    name: 'Memory',
     render: (num) => prettyKib(num),
     sortable: true,
   },
   {
-    field: 'current_mem',
-    name: 'Remaining Memory',
-    render: () => 'TODO',
+    field: 'vcpus',
+    name: 'VCPUs',
     sortable: true,
   },
   {

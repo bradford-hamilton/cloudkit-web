@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect, Link } from "react-router-dom";
-import { EuiCollapsibleNav, EuiTitle, EuiSpacer } from '@elastic/eui';
+import { EuiCollapsibleNav, EuiTitle, EuiSpacer, EuiHorizontalRule } from '@elastic/eui';
 import Dashboard from './components/Dashboard/Dashboard'
 import VMManager from './components/VMManager/VMManager'
 import VMView from './components/VMView/VMView'
@@ -17,25 +17,24 @@ function App() {
           className="collapsible-nav"
           isOpen={navIsOpen}
           isDocked={navIsDocked}
-          // button={
-          //   <EuiButton onClick={() => setNavIsOpen(!navIsOpen)}>
-          //     Toggle nav
-          //   </EuiButton>
-          // }
-          onClose={() => setNavIsOpen(false)}>
+          onClose={() => setNavIsOpen(false)}
+        >
           <div style={{ padding: 16 }}>
             <EuiTitle>
               <Link to="/dashboard">
                 <h2>CloudKit</h2>
               </Link>
             </EuiTitle>
+          </div>
+          <EuiHorizontalRule size="full" />
+          <EuiSpacer size="l"/>
+          <div style={{ padding: 16 }}>
+            <EuiTitle size="s">
+              <Link to="/dashboard">
+                <h3>Dashboard</h3>
+              </Link>
+            </EuiTitle>
             <EuiSpacer size="l"/>
-            {/* <EuiButton
-              onClick={() => {
-                setNavIsDocked(!navIsDocked);
-              }}>
-              Docked: {navIsDocked ? 'on' : 'off'}
-            </EuiButton> */}
           </div>
         </EuiCollapsibleNav>
       </div>
