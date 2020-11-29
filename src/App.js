@@ -4,11 +4,13 @@ import { EuiCollapsibleNav, EuiTitle, EuiSpacer, EuiHorizontalRule } from '@elas
 import Dashboard from './components/Dashboard/Dashboard'
 import VMManager from './components/VMManager/VMManager'
 import VMView from './components/VMView/VMView'
+import Functions from './components/Functions/Functions'
 import './App.scss';
 
 function App() {
   const [navIsOpen, setNavIsOpen] = useState(false);
   const [navIsDocked, _setNavIsDocked] = useState(true);
+  const navLinkStyle = { paddingLeft: 16, paddingTop: '10px' };
 
   return (
     <Router>
@@ -19,7 +21,7 @@ function App() {
           isDocked={navIsDocked}
           onClose={() => setNavIsOpen(false)}
         >
-          <div style={{ padding: 16 }}>
+          <div style={navLinkStyle}>
             <EuiTitle>
               <Link to="/dashboard">
                 <h2>CloudKit</h2>
@@ -28,44 +30,37 @@ function App() {
           </div>
           <EuiHorizontalRule size="full" />
           <EuiSpacer size="l"/>
-          <div style={{ padding: 16 }}>
+          <div style={navLinkStyle}>
             <EuiTitle size="s">
               <Link to="/dashboard">
                 <h3>Dashboard</h3>
               </Link>
             </EuiTitle>
-            <EuiSpacer size="l"/>
+          </div>
+          <div style={navLinkStyle}>
+            <EuiTitle size="s">
+              <Link to="/functions">
+                <h3>Functions</h3>
+              </Link>
+            </EuiTitle>
           </div>
         </EuiCollapsibleNav>
       </div>
       <Switch>
-        <Redirect
-          from='/'
-          to="/dashboard"
-          exact
-        />
-        <Route
-          path="/dashboard"
-          exact
-        >
+        <Redirect from='/' to="/dashboard" exact />
+        <Route path="/dashboard" exact>
           <Dashboard />
         </Route>
-        <Route
-          path="/vm-manager"
-          exact
-        >
+        <Route path="/vm-manager" exact>
           <VMManager />
         </Route>
-        <Route
-          path="/vms/:domain_id"
-          exact
-        >
+        <Route path="/vms/:domain_id" exact>
           <VMView />
         </Route>
-        <Route
-          path="*"
-          component={NoMatch}
-        />
+        <Route path="/functions" exact>
+          <Functions />
+        </Route>
+        <Route path="*" component={NoMatch} />
       </Switch>
     </Router>
   );
